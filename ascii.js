@@ -13,7 +13,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 Ascii = (function(){
 	
-	DEFAULT_CHAR_MAP = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
+	DEFAULT_CHAR_MAP = " $@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
 	
 	var AsciiArt = function(config){
 		
@@ -36,18 +36,20 @@ Ascii = (function(){
 		var canvas = document.createElement('canvas'),
 		    ctx = canvas.getContext('2d'),
 		    that = this,
-		    thisRow;
+		    thisRow,
+		    out = [],
+		    img = new Image(),
 		
-		var out = [];
-		var img = new Image();
+		    that = this;
+		
+		
 		canvas.height=480;
 		canvas.width=640;
-		console.log(url);
 		img.onload = function(){
 
-			ctx.drawImage(img, 0,0, 224, 84);
+			ctx.drawImage(img, 0,0, img.width, img.height * .6);
 
-			var data = ctx.getImageData(0,0,224,84);
+			var data = ctx.getImageData(0,0, img.width, img.height * .6);
 
 			for(var y = 0; y < data.height; y++){
 				thisRow = [];
@@ -62,9 +64,15 @@ Ascii = (function(){
 					if(!ch || ch == ' '){
 						ch = '&nbsp;';
 					}
-	
-					thisRow.push("<span style=\"color:rgb(" + color.join(',') + ")\">" + ch + "</span>");
-				}
+					if(that.color){
+						thisRow.push("<span style=\"color:rgb(" + color.join(',') + ")\">" + ch + "</span>");
+					}else{
+						thisRow.push("<span>" + ch + "</span>");
+					}
+					
+
+					
+				}	
 				thisRow.push('<br>');
 				out.push(thisRow);
 			}
@@ -77,9 +85,10 @@ Ascii = (function(){
 				outStr += out[i].join('');
 				outStr += '\n';
 			};
+
 			callback(outStr);
 		}
-		console.log(url);
+
 		img.src = url;
 		
 	}

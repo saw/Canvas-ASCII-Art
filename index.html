@@ -10,12 +10,16 @@
 			font-family: monospace;
 			font-size: 8px;
 		}
+		
+		pre {
+			overflow:hidden;
+		}
 	</style>
 </head>
 <body>
 	<div id="picker">
 		<form>
-			<input type="text" size="100" placeholder="Url of image to asciificate">
+			<input type="url" size="100" id="url" placeholder="Url of image to asciificate">
 			<input type="checkbox" name="color" value="color" id="color" checked="checked">
 			<label for="color">Color?</label>
 		</form>
@@ -33,14 +37,30 @@
 	document.querySelector('#picker form').addEventListener('submit', function(e){
 		e.preventDefault();
 		
+		var color = this.querySelector('#color').checked, out, pre, url;
 		
+		out = document.getElementById('out');
+		
+		url = document.getElementById('url').value;
+		
+		if(color){
+			asciiColor.makeAscii(url, function(str){
+				out.innerHTML = '';
+				out.innerHTML = str;
+			});
+		}else{
+			ascii.makeAscii(url, function(str){
+				out.innerHTML = '';
+				out.innerHTML = str;
+			});
+
+			
+		}
+		
+			
 	});
 	
-	var img = document.querySelector('#holder img');
-	var ascii = new Ascii({color:true});
-	ascii.makeAscii('http://farm8.staticflickr.com/7110/6999094115_8488a06467_z.jpg', function(str){
-		document.getElementById('out').innerHTML = str;
-	});
+
 }());
 </script>
 </html>
