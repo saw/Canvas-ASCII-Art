@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width">
+	<title></title>
+	<style type="text/css" media="screen">
+		#out {
+			font-family: monospace;
+			font-size: 8px;
+		}
+	</style>
+</head>
+<body>
+	<div id="picker">
+		<form>
+			<input type="text" size="100" placeholder="Url of image to asciificate">
+			<input type="checkbox" name="color" value="color" id="color" checked="checked">
+			<label for="color">Color?</label>
+		</form>
+	</div>
+	<div id="out">
+	</div>
+</body>
+<script src="ascii.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+(function(){
+	
+	var ascii = new Ascii({color:false}),
+		asciiColor = new Ascii({color:true});
+	
+	document.querySelector('#picker form').addEventListener('submit', function(e){
+		e.preventDefault();
+		
+		
+	});
+	
+	var img = document.querySelector('#holder img');
+	var ascii = new Ascii({color:true});
+	ascii.makeAscii('http://farm8.staticflickr.com/7110/6999094115_8488a06467_z.jpg', function(str){
+		document.getElementById('out').innerHTML = str;
+	});
+}());
+</script>
+</html>
