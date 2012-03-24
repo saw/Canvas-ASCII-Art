@@ -13,7 +13,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 Ascii = (function(){
 	
-	DEFAULT_CHAR_MAP = " $@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
+	DEFAULT_CHAR_MAP = " $@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~i!lI;:,\"^`'. ";
 	
 	var AsciiArt = function(config){
 		
@@ -67,7 +67,7 @@ Ascii = (function(){
 					if(that.color){
 						thisRow.push("<span style=\"color:rgb(" + color.join(',') + ")\">" + ch + "</span>");
 					}else{
-						thisRow.push("<span>" + ch + "</span>");
+						thisRow.push(ch);
 					}
 					
 
