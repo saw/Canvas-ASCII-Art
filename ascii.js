@@ -13,7 +13,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 Ascii = (function(){
 	
-	DEFAULT_CHAR_MAP = " $@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~i!lI;:,\"^`'. ";
+	DEFAULT_CHAR_MAP = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~i!lI;:,\"^`'. ";
 	
 	var AsciiArt = function(config){
 		
@@ -32,6 +32,7 @@ Ascii = (function(){
 
 		// map = '';
 		var grays = map.length;
+		console.log(grays);
 
 		var canvas = document.createElement('canvas'),
 		    ctx = canvas.getContext('2d'),
@@ -46,29 +47,34 @@ Ascii = (function(){
 		canvas.height=480;
 		canvas.width=640;
 		img.onload = function(){
-
+			console.time('calc');
 			ctx.drawImage(img, 0,0, img.width, img.height * .6);
 
-			var data = ctx.getImageData(0,0, img.width, img.height * .6);
+			var data = ctx.getImageData(0,0, img.width, img.height * .6),
+			
+			i, avg, color, ch;
 
 			for(var y = 0; y < data.height; y++){
 				thisRow = [];
 				for(var x = 0; x < data.width; x++){
-					var i = (y * 4) * data.width + x * 4;
-					var avg = (data.data[i] + data.data[i + 1] + data.data[i + 2]) / 3;
-					var color = [data.data[i], data.data[i + 1], data.data[i + 2]];
+					i = (y * 4) * data.width + x * 4;
+					avg = (data.data[i] + data.data[i + 1] + data.data[i + 2]) / 3;
+					color = [data.data[i], data.data[i + 1], data.data[i + 2]];
 
 					
-					var ch = map[Math.round((avg/255) *grays)];
-					
+					ch = map[Math.round((avg/255) *grays)];
+					if(Math.round((avg/255) *grays) == 255){
+						ch = ' ';
+					}
 					if(!ch || ch == ' '){
 						ch = '&nbsp;';
 					}
 					if(that.color){
 						thisRow.push("<span style=\"color:rgb(" + color.join(',') + ")\">" + ch + "</span>");
 					}else{
-						thisRow.push(ch);
+						thisRow.push("<span>" + ch + "</span>");
 					}
+					
 					
 
 					
@@ -85,7 +91,7 @@ Ascii = (function(){
 				outStr += out[i].join('');
 				outStr += '\n';
 			};
-
+			console.timeEnd('calc');
 			callback(outStr);
 		}
 

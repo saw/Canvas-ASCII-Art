@@ -19,9 +19,16 @@
 <body>
 	<div id="picker">
 		<form>
+			<p>
 			<input type="text" size="100" id="url" placeholder="Url of image to asciificate" value="abe.png">
 			<input type="checkbox" name="color" value="color" id="color" checked="checked">
 			<label for="color">Color?</label>
+			</p>
+			<p>
+				<label for="stack">Custom Stack:</label>
+				<input name="stack" type="text" id="stack" value="@%#*+=-:.">
+			</p>
+			<input type="submit" name="go">
 		</form>
 	</div>
 	<div id="out">
@@ -33,30 +40,33 @@
 	
 	var ascii = new Ascii({color:false}),
 		asciiColor = new Ascii({color:true});
-	
+
 	document.querySelector('#picker form').addEventListener('submit', function(e){
 		e.preventDefault();
-		
-		var color = this.querySelector('#color').checked, out, pre, url;
+
+		var color = this.querySelector('#color').checked, out, pre, url, inner = false, stack;
 		
 		out = document.getElementById('out');
 		
 		url = document.getElementById('url').value;
 		
-		if(color){
-			asciiColor.makeAscii(url, function(str){
-				out.innerHTML = '';
-				out.innerHTML = str;
-			});
-		}else{
-			ascii.makeAscii(url, function(str){
-				out.innerHTML = '';
-				out.innerHTML = str;
-			});
-
-			
-		}
+		stack = document.getElementById('stack').value;
 		
+		var conf = {color:color ? true : false};
+		
+		if(stack){
+			conf.charMap = stack;
+		}
+
+		(new Ascii(conf)).makeAscii(url, function(str){
+			console.time('insert');
+			out.innerHTML = '';
+			inner = document.createElement('div');
+			inner.innerHTML = str;
+			out.appendChild(inner);
+			console.timeEnd('insert');
+		});
+
 			
 	});
 	
