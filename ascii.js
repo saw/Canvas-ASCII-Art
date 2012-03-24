@@ -63,10 +63,14 @@ Ascii = (function(){
 
 					
 					ch = map[Math.round((avg/255) *grays)];
-					if(Math.round((avg/255) *grays) == 255){
-						ch = ' ';
+					// if(Math.round((avg/255) *grays) == 255){
+					// 	ch = ' ';
+					// }
+					
+					if(!ch){
+						ch = map[map.length-1];
 					}
-					if(!ch || ch == ' '){
+					if(ch == ' '){
 						ch = '&nbsp;';
 					}
 					if(that.color){
